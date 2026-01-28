@@ -1,1 +1,77 @@
+/*
+Problem: String Compression (LeetCode 443)
 
+Description:
+Given a vector of characters `chars`, compress it using the following rules:
+- For each group of consecutive repeating characters:
+  - Write the character followed by the count of repetitions (if count > 1).
+- The compression must be done in-place.
+- Return the new length of the compressed array.
+
+Example 1:
+Input:
+chars = ['a','a','b','b','c','c','c']
+
+Output:
+chars = ['a','2','b','2','c','3']
+Return length = 6
+
+Example 2:
+Input:
+chars = ['a']
+
+Output:
+chars = ['a']
+Return length = 1
+
+Approach:
+We use the Two Pointer technique.
+
+Steps:
+1. Use one pointer `i` to read characters from the array.
+2. Use another pointer `index` to write the compressed result in-place.
+3. For each character group:
+   - Count how many times the current character repeats consecutively.
+   - Write the character to the array.
+   - If the count is greater than 1, convert the count to a string and
+     write each digit into the array.
+4. Continue until all characters are processed.
+
+Time Complexity: O(n)
+Space Complexity: O(1) (in-place, no extra space used)
+*/
+
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        int n = chars.size();
+        int i = 0;      // read pointer
+        int index = 0;  // write pointer
+
+        while (i < n) {
+            char curr = chars[i];
+            int cnt = 0;
+
+            // count consecutive characters
+            while (i < n && chars[i] == curr) {
+                i++;
+                cnt++;
+            }
+
+            // write the character
+            chars[index] = curr;
+            index++;
+
+            // write the count if greater than 1
+            if (cnt > 1) {
+                string s = to_string(cnt);
+                for (char c : s) {
+                    chars[index] = c;
+                    index++;
+                }
+            }
+        }
+
+        return index;
+    }
+};
