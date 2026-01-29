@@ -1,1 +1,47 @@
+// Linked List Traversal Example in C++
+// Author: Shreshtha
+#include <iostream>
+using namespace std;
 
+// Definition of a Node in singly linked list
+class Node {
+public:
+    int data;     // Data stored in node
+    Node* next;   // Pointer to next node
+
+    // Constructor to initialize node
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+// Function to traverse the linked list and print data
+void traverseList(Node* head) {
+    Node* temp = head;
+    while(temp != nullptr) {
+        cout << temp->data << endl;
+        temp = temp->next;
+    }
+}
+
+// Main function
+int main() {
+    // Creating nodes dynamically using heap
+    Node* head = new Node(10);
+    head->next = new Node(20);
+    head->next->next = new Node(30);
+
+    // Traversing and printing linked list
+    traverseList(head);
+
+    // Free heap memory
+    Node* temp;
+    while(head != nullptr) {
+        temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;
+}
