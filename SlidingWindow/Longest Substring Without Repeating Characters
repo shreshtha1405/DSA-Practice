@@ -1,1 +1,38 @@
+/*
+Problem: Longest Substring Without Repeating Characters (LeetCode 3)
+
+Approach:
+We use the sliding window technique with two pointers.
+The window is expanded by moving the right pointer.
+If a character is already present in the window, we shrink
+the window from the left until all characters become unique again.
+
+We use an unordered_map to store the frequency of characters
+inside the current window.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        unordered_map<char,int> mpp;
+        int l = 0;
+        int maxLen = 0;
+
+        for(int r = 0; r < n; r++){
+            while(mpp[s[r]] > 0){
+                mpp[s[l]]--;
+                l++;
+            }
+
+            mpp[s[r]]++;
+            maxLen = max(maxLen, r - l + 1);
+        }
+
+        return maxLen;
+    }
+};
 
