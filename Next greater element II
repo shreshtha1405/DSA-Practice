@@ -1,0 +1,81 @@
+/*
+Problem: Next Greater Element II (LeetCode 503)
+
+Description:
+Given a circular integer array nums (i.e., the next element of the last element
+is the first element of the array), return the next greater number for every element.
+
+The next greater number of a number x is the first greater number to its right
+(traversing circularly). If it doesn't exist, return -1.
+
+Example:
+Input: nums = [1,2,1]
+Output: [2,-1,2]
+
+Explanation:
+- For 1 → next greater is 2
+- For 2 → no greater element → -1
+- For 1 → next greater is 2 (circular)
+
+Approach:
+We use a monotonic decreasing stack.
+
+1. Traverse the array from right to left twice (2*n - 1 to 0) to simulate circular behavior.
+2. Use modulo (i % n) to access elements.
+3. Maintain a stack storing possible next greater elements.
+4. For each element:
+   - Pop all smaller or equal elements from the stack.
+   - If stack is empty → next greater = -1
+   - Else → top of stack is next greater
+5. Fill answer only when i < n (first pass).
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> nge(n);
+        stack<int> st;
+
+        // Traverse 2*n times for circular behavior
+        for(int i = 2*n - 1; i >= 0; i--) {
+
+            // Remove all smaller elements
+            while(!st.empty() && st.top() <= nums[i % n]) {
+                st.pop();
+            }
+
+            // Fill result only for first pass
+            if(i < n) {
+                if(st.empty()) nge[i] = -1;
+                else nge[i] = st.top();
+            }
+
+            // Push current element
+            st.push(nums[i % n]);
+        }
+
+        return nge;
+    }
+};
+
+// Driver code for testing
+int main() {
+    Solution obj;
+    vector<int> nums = {1, 2, 1};
+
+    vector<int> result = obj.nextGreaterElements(nums);
+
+    cout << "Next Greater Elements: ";
+    for(int x : result) {
+        cout << x << " ";
+    }
+
+    return 0;
+}
