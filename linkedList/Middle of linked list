@@ -1,1 +1,46 @@
+/*
+Problem: Middle of the Linked List (LeetCode 876)
 
+Description:
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+
+Example:
+Input:
+head = [1,2,3,4,5]
+
+Output:
+[3,4,5]
+
+Explanation:
+The middle node is node 3.
+
+Approach:
+We use two pointers:
+- slow pointer moves 1 step at a time
+- fast pointer moves 2 steps at a time
+
+When fast reaches the end of the list,
+slow will be at the middle node.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+*/
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // Move fast by 2 steps and slow by 1 step
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // Slow pointer will be at the middle
+        return slow;
+    }
+};
